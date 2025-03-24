@@ -1,17 +1,20 @@
 pipeline {
     agent any
     stages {
-	stage('Clone Repository') {
+        stage('Clone Repository') {
             steps {
                 echo "Cloning repository..."
                 git url: 'https://github.com/KPkm25/sample-ci-cd.git', branch: 'main'
                 echo "Repository cloned successfully."
             }
+        } // <-- Missing closing brace added here
+
         stage('Build') {
             steps {
                 sh 'docker build -t sample-ci-cd:latest .'
             }
         }
+
         stage('Push') {
             steps {
                 withDockerRegistry([credentialsId: 'docker-creds', url: '']) {
@@ -20,6 +23,7 @@ pipeline {
                 }
             }
         }
+
         stage('Deploy') {
             steps {
                 sh 'kubectl apply -f k8s/deployment.yaml'
