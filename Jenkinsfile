@@ -26,10 +26,14 @@ pipeline {
                 }
             }
         }
-
         stage('Deploy') {
             steps {
-                sh 'kubectl apply -f k8s/deployment.yaml --namespace=jenkins'
+                sh '''
+                kubectl config set-credentials jenkins --token=$KUBECONFIG
+                kubectl config set-context jenkins-context --cluster=kubernetes --user=jenkins
+                kubectl config use-context jenkins-context
+                kubectl apply -f k8s/deployment.yaml --namespace=jenkins
+                '''
             }
         }
     }
