@@ -1,7 +1,7 @@
 pipeline {
     agent any
         environment {
-        KUBECONFIG = credentials('kube-jen')  // Use the stored K8s token
+        K8S= credentials('kube-jen')  // Use the stored K8s token
     }
     stages {
         stage('Clone Repository') {
@@ -29,7 +29,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                kubectl config set-credentials jenkins --token=$KUBECONFIG
+                kubectl config set-credentials jenkins --token=$K8S
                 kubectl config set-context jenkins-context --cluster=kubernetes --user=jenkins
                 kubectl config use-context jenkins-context
                 kubectl apply -f k8s/deployment.yaml --namespace=jenkins
