@@ -1,5 +1,8 @@
 pipeline {
     agent any
+        environment {
+        KUBECONFIG = credentials('kube-jen')  // Use the stored K8s token
+    }
     stages {
         stage('Clone Repository') {
             steps {
@@ -26,7 +29,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh 'kubectl apply -f k8s/deployment.yaml'
+                sh 'kubectl apply -f k8s/deployment.yaml --namespace=jenkins'
             }
         }
     }
