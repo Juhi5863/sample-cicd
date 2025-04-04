@@ -16,7 +16,7 @@ spec:
       serviceAccountName: jenkins
       containers:
       - name: sample-ci-cd
-        image: kpkm25/sample-ci-cd:latest
+        image: juhichoudhary/sample-ci-cd:latest
         ports:
         - containerPort: 5000
 ---
