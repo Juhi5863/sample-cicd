@@ -28,12 +28,13 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh '''
-                kubectl config set-credentials jenkins --token=$K8S
-                kubectl config set-context jenkins-context --cluster=kubernetes --user=jenkins
-                kubectl config use-context jenkins-context
-                kubectl apply -f k8s/deployment.yaml --namespace=jenkins
-                '''
+                withCredentials([file(credentialsId: 'kube-trial', variable: 'KUBECONFIG_FILE')]) {
+  sh '''
+    export KUBECONFIG=$KUBECONFIG_FILE
+    kubectl apply -f k8s/deployment.yaml --namespace=jenkins
+  '''
+}
+
             }
         }
     }
