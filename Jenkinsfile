@@ -1,7 +1,7 @@
 pipeline {
     agent any
         environment {
-        K8S= credentials('6a280542-7619-4c87-9db0-a1208d2b1bc5')  // Use the stored K8s token
+        K8S= credentials('kube-trial')  // Use the stored K8s token
     }
     stages {
         stage('Clone Repository') {
@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                withCredentials([file(credentialsId: '6a280542-7619-4c87-9db0-a1208d2b1bc5', variable: 'KUBECONFIG_FILE')]) {
+                withCredentials([file(credentialsId: 'kube-trial', variable: 'KUBECONFIG_FILE')]) {
   sh '''
     export KUBECONFIG=$KUBECONFIG_FILE
     kubectl apply -f juhichoudhary/deployment.yaml --namespace=jenkins
