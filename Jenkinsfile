@@ -1,7 +1,7 @@
 pipeline {
     agent any
         environment {
-        K8S= credentials('jenkins-sa-token')  // Use the stored K8s token
+        K8S= credentials('kube-trial')  // Use the stored K8s token
     }
     stages {
         stage('Clone Repository') {
